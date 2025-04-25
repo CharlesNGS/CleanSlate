@@ -1,0 +1,16 @@
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# Environment variables and secret configs
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Folders not needed on repo
+_AppBackup/
+_AppTest/
+Imports/
+Referenced Files/
