@@ -1,0 +1,70 @@
+/* CSS file for user application */
+
+/* 
+Import fonts
+All fonts are imported from direct files. Fonts are not web hosted.
+Font License
+Copyright 2020 The DM Mono Project Authors (https://www.github.com/googlefonts/dm-mono)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+*/
+@font-face {
+    font-family: DMMono;
+    font-style: italic;
+    font-weight: 400;
+    src: url('fonts/DMMono-Italic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: DMMono;
+    font-style: normal;
+    font-weight: 300;
+    src: url('fonts/DMMono-Light.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: DMMono;
+    font-style: italic;
+    font-weight: 300;
+    src: url('fonts/DMMono-LightItalic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: DMMono;
+    font-style: normal;
+    font-weight: 500;
+    src: url('fonts/DMMono-Medium.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: DMMono;
+    font-style: italic;
+    font-weight: 500;
+    src: url('fonts/DMMono-MediumItalic.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: DMMono;
+    font-style: normal;
+    font-weight: 400;
+    src: url('fonts/DMMono-Regular.woff2') format('woff2');
+}
+
+/* Apply the font */
+body {
+    font-family: 'DMMono', monospace;
+}
+
+/* Main container */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    width: 100%;
+  }
