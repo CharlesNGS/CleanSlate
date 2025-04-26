@@ -58,8 +58,13 @@ SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 }
 
 /* Apply the font */
-body {
+.font {
     font-family: 'DMMono', monospace;
+}
+
+/* Align content to the center */
+.center {
+    align-items: center;
 }
 
 /* Main container */

@@ -11,32 +11,39 @@ function Signin() {
     };
     return (
       <form onSubmit={handleSubmit}>
-        <div1>
-            <div2>
-                <label>
+        <div>
+            <div>
+                <label
+                className="font center">
                     Username:
                     <input 
+                    title="Username"
                     type="text" 
                     value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     />
                 </label>
-                <label>
+                <label
+                className="font center">
                     Password:
                     <input 
+                    title="Password"
                     type="password"
                     value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
-            </div2>
-            <div2>
+            </div>
+            <div>
                 <button 
+                className="font center"
                 type="submit"
-                onPress={handleSubmit}
+                onClick={handleSubmit}
                 >
-                    Sign In
+                    Sign In:
                 </button>
-            </div2>
-        </div1>
+            </div>
+        </div>
       </form>
     )
   }
