@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File upload</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+
+      function FileUpload() {
+        const [file, setFile] = React.useState(null);
+        const [isCSV, setIsCSV] = React.useState(false);
+
+        const handleFileChange = (e) => {
+          const selectedFile = e.target.files[0];
+          if (!selectedFile) {
+            setIsCSV(false);
+            setFile(null);
+            return;
+          }
+
+          const valid = selectedFile.name.toLowerCase().endsWith('.csv');
+          setFile(selectedFile);
+          setIsCSV(valid);
+        };
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          alert(`Submitting: ${file.name}`);
+
+        };
+
+        return (
+          <form onSubmit={handleSubmit}>
+            <label>
+              Upload a CSV File:
+              <input type="file" accept=".csv" onChange={handleFileChange} />
+            </label>
+            <br />
+            <button type="submit" disabled={!isCSV}>
+                Submit
+            </button>
+          </form>
+        );
+      }
+      ReactDOM.createRoot(document.getElementById('root')).render(<FileUpload />);
+    </script>
+  </body>
+</html>
