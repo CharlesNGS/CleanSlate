@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React in HTML</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+      
+      function Signin() {
+        const [username, setUsername] = useState('')
+        const [password, setPassword] = useState('')
+      
+        const handleSubmit = async (e) => {
+          e.preventDefault();
+          console.log('Username:', username);
+          console.log('Password:', password);
+        };
+
+        return (
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>
+                Username:
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </label>
+              <br />
+              <label>
+                Password:
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </label>
+              <br />
+              <button type="submit">Sign In</button>
+            </div>
+          </form>
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<Signin />);
+    </script>
+  </body>
+</html>
