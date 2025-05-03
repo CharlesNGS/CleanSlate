@@ -211,7 +211,7 @@ def newCompany(newCompanyName):
         CompanyDataBase.close()
         print("This company has now been added to the database.")
 
-def updateTranslation(ProductTuple):
+def updateTranslation(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
 
@@ -228,6 +228,8 @@ def updateTranslation(ProductTuple):
     #Stores the query to add the new data to the database.
     CheckCompanyNameQuery = "SELECT Company FROM qrtable WHERE Company = %s"
 
+    UpdateQuery = "UPDATE qrtable SET (translation) = %s WHERE SKU = %s and Company = %s"
+
     #Check to see if an object already exists in the database
     ProductSKUCheck = QRDataBase.cursor()
     ProductSKUCheck.execute(CheckProductSKUQuery, (ProductTuple[PositionOfProductSKU],))
@@ -235,5 +237,14 @@ def updateTranslation(ProductTuple):
 
     #Check to see if an object already exists in the database
     CompanyCheck = QRDataBase.cursor()
-    CompanyCheck.execute(CheckCompanyNameQuery, (QRHash,))
+    CompanyCheck.execute(CheckCompanyNameQuery, (ProductTuple[PositionOfCompanyName],))
     CompanyCheckResult = CheckCompanyNameQuery.fetchone()
+
+    if ProductSKUCheckResult and CompanyCheckResult:
+        TranslationUpdate = QRDataBase.cursor()
+        TranslationUpdate.execute(UpdateQuery, (ProductTuple[PositionOfTranslation], ProductTuple[PositionOfProductSKU], ProductTuple[PositionOfCompanyName],))
+        TranslationUpdate.commit()
+        TranslationUpdate.close()
+        QRDataBase.close()
+    else:
+        print("Unable to update database existing entry does not exist.")
