@@ -4,6 +4,7 @@ sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
 from dotenv import load_dotenv
 from hashlib import sha256
 import mysql.connector
+import os
 
 def inputHash(password):
     preHashDetails = (password).encode('utf-8')
