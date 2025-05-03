@@ -209,4 +209,4 @@ def newCompany(newCompanyName):
         CompanyDataBase.commit()
         CompanyDatabaseAdd.close()
         CompanyDataBase.close()
-        print("This company has now been added to the database.")        
+        print("This company has now been added to the database.")
