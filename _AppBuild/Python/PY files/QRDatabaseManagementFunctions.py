@@ -228,12 +228,12 @@ def updateTranslation(ProductTuple, PositionOfCompanyName, PositionOfProductSKU,
     #Stores the query to add the new data to the database.
     CheckCompanyNameQuery = "SELECT Company FROM qrtable WHERE Company = %s"
 
-    UpdateQuery = "UPDATE qrtable SET (translation) = %s WHERE SKU = %s and Company = %s"
+    UpdateQuery = "UPDATE qrtable SET translation = %s WHERE SKU = %s and Company = %s"
 
     #Check to see if an object already exists in the database
     ProductSKUCheck = QRDataBase.cursor()
     ProductSKUCheck.execute(CheckProductSKUQuery, (ProductTuple[PositionOfProductSKU],))
-    ProductSKUCheckResult = CheckProductSKUQuery.fetchone()
+    ProductSKUCheckResult = ProductSKUCheck.fetchone()
 
     #Check to see if an object already exists in the database
     CompanyCheck = QRDataBase.cursor()
@@ -244,7 +244,7 @@ def updateTranslation(ProductTuple, PositionOfCompanyName, PositionOfProductSKU,
         TranslationUpdate = QRDataBase.cursor()
         TranslationUpdate.execute(UpdateQuery, (ProductTuple[PositionOfTranslation], ProductTuple[PositionOfProductSKU], ProductTuple[PositionOfCompanyName],))
         TranslationUpdate.commit()
-        TranslationUpdate.close()
+        QRDataBase.close()
         QRDataBase.close()
     else:
         print("Unable to update database existing entry does not exist.")
