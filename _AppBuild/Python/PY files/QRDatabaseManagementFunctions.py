@@ -5,7 +5,7 @@ from DataBaseConnections import companyDatabase
 from DataBaseConnections import productDatabase
 from dotenv import load_dotenv
 
-def addProductToDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
+def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
     ProductDataBase = productDatabase
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
@@ -47,7 +47,7 @@ def addProductToDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOf
         ProductDataBase.close()
         return True
 
-def addCompanyToDatabase(newCompanyName):
+def addCompanyToCompanyDatabase(newCompanyName):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\QRPasswordenv.env")
 
@@ -76,7 +76,7 @@ def addCompanyToDatabase(newCompanyName):
         CompanyDataBase.close()
         print("This company has now been added to the database.")
 
-def updateTranslationInDatabase(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
+def updateTranslationInProductDatabase(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
 

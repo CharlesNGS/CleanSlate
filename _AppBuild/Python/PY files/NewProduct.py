@@ -1,10 +1,10 @@
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from QRDatabaseManagementFunctions import addProductToDatabase
-from QRCSVManagement import OrderOfProducts
-from QRNewHash import hashMaker
-from QRNewHash import URLMaker
-from QRNewHash import QRMaker
+from QRDatabaseManagementFunctions import addProductToProductDatabase
+from QRCSVManagement import checkCSVOrderAndContents
+from createHashURLandQR import hashMaker
+from createHashURLandQR import URLMaker
+from createHashURLandQR import QRMaker
 import csv
 
 #Takes an input based off of a products details and creates all required components to add one single new product to a database
@@ -26,7 +26,7 @@ def singleNewProduct(ProductTuple):
         QRCode = QRMaker(ProductURL)
 
         #Confirms the items are added to the database before saving the QR Code
-        if addProductToDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
+        if addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
             QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
             print("Database has been updated with the new details for this product.")
         else:
@@ -50,7 +50,7 @@ def multipleNewProduct(CSVNewProduct):
             ProductRequirements = {"companyname", "productsku", "translation"}
 
             if ProductsUnordered:
-                TupleOrderOfProducts = OrderOfProducts(ProductTuple, ProductRequirements)
+                TupleOrderOfProducts = checkCSVOrderAndContents(ProductTuple, ProductRequirements)
                 PositionOfCompanyName = TupleOrderOfProducts[0]
                 PositionOfProductSKU = TupleOrderOfProducts[1]
                 PositionOfTranslation = TupleOrderOfProducts[2]
@@ -66,7 +66,7 @@ def multipleNewProduct(CSVNewProduct):
                 QRHash = hashMaker(CompanynameForHash, ProductSKUForHash)
                 ProductURL = URLMaker(QRHash)
                 QRCode = QRMaker(ProductURL)
-                if addProductToDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
+                if addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
                     QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
                     print("Database has been updated with the new details for this product.")
                 else:
