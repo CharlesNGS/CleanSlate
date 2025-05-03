@@ -12,36 +12,36 @@ def addProductToDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOf
     CompanyDataBase = companyDatabase
 
     #Stores the query to check if the hash is in the database.
-    CheckCompanyQuery = "SELECT * FROM allowedcompanies WHERE allowedcompanieslist = %s"
+    CompanyCheckInCompanyDataBaseQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"
     #Stores the query to check if the hash is in the database.
-    CheckProductQuery = "SELECT * FROM qrtable WHERE qrhash = %s"
+    HashCheckInProductDataBaseQuery = "SELECT * FROM qrtable WHERE qrhash = %s"
     #Stores the query to add the new data to the database.
-    InsertProductQuery = "INSERT INTO qrtable (qrhash, translation, Company, SKU) Values (%s, %s, %s, %s)"
+    ProductInsertProductDataBaseQuery = "INSERT INTO qrtable (qrhash, translation, Company, SKU) Values (%s, %s, %s, %s)"
 
     #Check to see if an object already exists in the database
-    CompanyDatabaseCheck = CompanyDataBase.cursor()
-    CompanyDatabaseCheck.execute(CheckCompanyQuery, (ProductTuple[PositionOfCompanyName],))
-    CompanyDatabaseCheckResult = CompanyDatabaseCheck.fetchone()
+    CompanyCheckInCompanyDataBase = CompanyDataBase.cursor()
+    CompanyCheckInCompanyDataBase.execute(CompanyCheckInCompanyDataBaseQuery, (ProductTuple[PositionOfCompanyName],))
+    CompanyCheckInCompanyDataBaseResult = CompanyCheckInCompanyDataBase.fetchone()
 
     #Check to see if an object already exists in the database
-    ProductDatabaseCheck = ProductDataBase.cursor()
-    ProductDatabaseCheck.execute(CheckProductQuery, (QRHash,))
-    ProductDatabaseCheckResult = ProductDatabaseCheck.fetchone()
+    ProductCheckInProductDatabase = ProductDataBase.cursor()
+    ProductCheckInProductDatabase.execute(HashCheckInProductDataBaseQuery, (QRHash,))
+    ProductCheckInProductDatabaseResult = ProductCheckInProductDatabase.fetchone()
 
     #If the QR code already exists
-    if not CompanyDatabaseCheckResult:
+    if not CompanyCheckInCompanyDataBaseResult:
         print(f"The company {ProductTuple[PositionOfCompanyName]} has not yet been setup.")
-        CompanyDatabaseCheck.close()
+        CompanyCheckInCompanyDataBaseResult.close()
         CompanyDataBase.close()
     #If the QR code already exists
-    elif ProductDatabaseCheckResult:
+    elif ProductCheckInProductDatabaseResult:
         print("This product has already been added to the database.")
-        ProductDatabaseCheck.close()
+        ProductCheckInProductDatabase.close()
         ProductDataBase.close()
         return False
     else:
         ProductDatabaseAdd = ProductDataBase.cursor()
-        ProductDatabaseAdd.execute(InsertProductQuery, (QRHash, ProductTuple[PositionOfTranslation], ProductTuple[PositionOfCompanyName], ProductTuple[PositionOfProductSKU]))
+        ProductDatabaseAdd.execute(ProductInsertProductDataBaseQuery, (QRHash, ProductTuple[PositionOfTranslation], ProductTuple[PositionOfCompanyName], ProductTuple[PositionOfProductSKU]))
         ProductDataBase.commit()
         ProductDatabaseAdd.close()
         ProductDataBase.close()
@@ -55,22 +55,22 @@ def addCompanyToDatabase(newCompanyName):
     CompanyDataBase = companyDatabase()
 
     #Stores the query to check if the company exists in the database.
-    CheckQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"
+    CompanyCheckInCompanyDataBaseQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"
     #Stores the query to add the new data to the database.
-    InsertQuery = "INSERT INTO allowedcompanies (allowedcompanieslist) Values (%s)"
+    CompanyInsertInCompanyDataBaseQuery = "INSERT INTO allowedcompanies (allowedcompanieslist) Values (%s)"
 
     #Check to see if an object already exists in the database
-    CompanyDatabaseCheck = CompanyDataBase.cursor()
-    CompanyDatabaseCheck.execute(CheckQuery, (newCompanyName,))
-    CompanyDatabaseCheckResult = CompanyDatabaseCheck.fetchone()
+    CompanyCheckInCompanyDataBase = CompanyDataBase.cursor()
+    CompanyCheckInCompanyDataBase.execute(CompanyCheckInCompanyDataBaseQuery, (newCompanyName,))
+    CompanyCheckInCompanyDataBaseResult = CompanyCheckInCompanyDataBase.fetchone()
     #If the QR code already exists
-    if CompanyDatabaseCheckResult:
+    if CompanyCheckInCompanyDataBaseResult:
         print("This company has already been added to the database.")
-        CompanyDatabaseCheck.close()
+        CompanyCheckInCompanyDataBase.close()
         CompanyDataBase.close()
     else:
         CompanyDatabaseAdd = CompanyDataBase.cursor()
-        CompanyDatabaseAdd.execute(InsertQuery, (newCompanyName,))
+        CompanyDatabaseAdd.execute(CompanyInsertInCompanyDataBaseQuery, (newCompanyName,))
         CompanyDataBase.commit()
         CompanyDatabaseAdd.close()
         CompanyDataBase.close()
@@ -83,27 +83,29 @@ def updateTranslationInDatabase(ProductTuple, PositionOfCompanyName, PositionOfP
     ProductDataBase = productDatabase()
 
     #Stores the query to check if the company exists is in the database.
-    CheckProductSKUQuery = "SELECT SKU FROM qrtable WHERE SKU = %s"
+    CheckSKUQuery = "SELECT SKU FROM qrtable WHERE SKU = %s"
     #Stores the query to add the new data to the database.
-    CheckCompanyNameQuery = "SELECT Company FROM qrtable WHERE Company = %s"
+    CheckCompanyQuery = "SELECT Company FROM qrtable WHERE Company = %s"
 
     UpdateQuery = "UPDATE qrtable SET translation = %s WHERE SKU = %s and Company = %s"
 
     #Check to see if an object already exists in the database
-    ProductSKUCheck = ProductDataBase.cursor()
-    ProductSKUCheck.execute(CheckProductSKUQuery, (ProductTuple[PositionOfProductSKU],))
-    ProductSKUCheckResult = ProductSKUCheck.fetchone()
+    SKUCheckInProductDataBase = ProductDataBase.cursor()
+    SKUCheckInProductDataBase.execute(CheckSKUQuery, (ProductTuple[PositionOfProductSKU],))
+    SKUCheckInProductDataBaseResult = SKUCheckInProductDataBase.fetchone()
 
     #Check to see if an object already exists in the database
-    CompanyCheck = ProductDataBase.cursor()
-    CompanyCheck.execute(CheckCompanyNameQuery, (ProductTuple[PositionOfCompanyName],))
-    CompanyCheckResult = CheckCompanyNameQuery.fetchone()
+    CompanyCheckInProductDataBase = ProductDataBase.cursor()
+    CompanyCheckInProductDataBase.execute(CheckCompanyQuery, (ProductTuple[PositionOfCompanyName],))
+    CompanyCheckInProductDataBaseResult = CompanyCheckInProductDataBase.fetchone()
 
-    if ProductSKUCheckResult and CompanyCheckResult:
+    if SKUCheckInProductDataBaseResult and CompanyCheckInProductDataBaseResult:
         TranslationUpdate = ProductDataBase.cursor()
         TranslationUpdate.execute(UpdateQuery, (ProductTuple[PositionOfTranslation], ProductTuple[PositionOfProductSKU], ProductTuple[PositionOfCompanyName],))
         TranslationUpdate.commit()
         ProductDataBase.close()
         ProductDataBase.close()
     else:
-        print("Unable to update database existing entry does not exist.")
+        print(f"Unable to update database {ProductTuple[PositionOfProductSKU]} does not exist for {ProductTuple[PositionOfCompanyName]}.")
+        ProductDataBase.close()
+        ProductDataBase.close()
