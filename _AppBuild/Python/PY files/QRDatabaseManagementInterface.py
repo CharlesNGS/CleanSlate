@@ -1,7 +1,7 @@
 #Imported functions
-from QRCreateAddToDatabase import newProduct
-from QRCreateAddToDatabase import newProductCSV
-from QRCreateAddToDatabase import newCompany
+from QRDatabaseManagementFunctions import newProduct
+from QRDatabaseManagementFunctions import newProductCSV
+from QRDatabaseManagementFunctions import newCompany
 
 #Three inputs must be satisfied
 DataEntry = input("Specify input: CSV or Single")

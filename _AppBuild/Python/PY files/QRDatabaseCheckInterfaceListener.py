@@ -1,5 +1,5 @@
 #Imported functions.
-from QRValidator import completeQuery
+from QRDatabaseCheckFunctions import completeQuery
 
 #Hash is the variable that queries the database.
 QRHashInput = input("qrHash")
