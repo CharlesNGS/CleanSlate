@@ -1,6 +1,8 @@
 #Imported modules
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
+from DataBaseConnections import companyDatabase
+from DataBaseConnections import productDatabase
 from dotenv import load_dotenv
 from hashlib import sha256
 import csv
@@ -51,22 +53,10 @@ def AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProdu
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
 
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
-    QRDataBase = mysql.connector.connect(
-        host="localhost",
-        port=3306,
-        user="root",
-        password=os.getenv("MYSQLPassword"),
-        database="dev_db"
-    )
+    ProductDataBase = productDatabase
 
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
-    CompanyDataBase = mysql.connector.connect(
-        host="localhost",
-        port=3306,
-        user="root",
-        password=os.getenv("MYSQLPassword"),
-        database="dev_db"
-    )
+    CompanyDataBase = companyDatabase
 
     #Stores the query to check if the hash is in the database.
     CheckCompanyQuery = "SELECT * FROM allowedcompanies WHERE allowedcompanieslist = %s"
@@ -81,9 +71,9 @@ def AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProdu
     CompanyDatabaseCheckResult = CompanyDatabaseCheck.fetchone()
 
     #Check to see if an object already exists in the database
-    QRDatabaseCheck = QRDataBase.cursor()
-    QRDatabaseCheck.execute(CheckProductQuery, (QRHash,))
-    QRDatabaseCheckResult = QRDatabaseCheck.fetchone()
+    ProductDatabaseCheck = ProductDataBase.cursor()
+    ProductDatabaseCheck.execute(CheckProductQuery, (QRHash,))
+    ProductDatabaseCheckResult = ProductDatabaseCheck.fetchone()
 
     #If the QR code already exists
     if not CompanyDatabaseCheckResult:
@@ -91,17 +81,17 @@ def AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProdu
         CompanyDatabaseCheck.close()
         CompanyDataBase.close()
     #If the QR code already exists
-    elif QRDatabaseCheckResult:
+    elif ProductDatabaseCheckResult:
         print("This product has already been added to the database.")
-        QRDatabaseCheck.close()
-        QRDataBase.close()
+        ProductDatabaseCheck.close()
+        ProductDataBase.close()
         return False
     else:
-        QRDatabaseAdd = QRDataBase.cursor()
-        QRDatabaseAdd.execute(InsertProductQuery, (QRHash, ProductTuple[PositionOfTranslation], ProductTuple[PositionOfCompanyName], ProductTuple[PositionOfProductSKU]))
-        QRDataBase.commit()
-        QRDatabaseAdd.close()
-        QRDataBase.close()
+        ProductDatabaseAdd = ProductDataBase.cursor()
+        ProductDatabaseAdd.execute(InsertProductQuery, (QRHash, ProductTuple[PositionOfTranslation], ProductTuple[PositionOfCompanyName], ProductTuple[PositionOfProductSKU]))
+        ProductDataBase.commit()
+        ProductDatabaseAdd.close()
+        ProductDataBase.close()
         return True
 
 #Function to merge all other functions allowing them to run in order and trigger only if all information is satisfied.
@@ -215,13 +205,7 @@ def updateTranslation(ProductTuple, PositionOfCompanyName, PositionOfProductSKU,
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
 
-    QRDataBase = mysql.connector.connect(
-    host="localhost",
-    port=3306,
-    user="root",
-    password=os.getenv("MYSQLPassword"),
-    database="dev_db"
-    )
+    ProductDataBase = productDatabase()
 
     #Stores the query to check if the company exists is in the database.
     CheckProductSKUQuery = "SELECT SKU FROM qrtable WHERE SKU = %s"
@@ -231,20 +215,20 @@ def updateTranslation(ProductTuple, PositionOfCompanyName, PositionOfProductSKU,
     UpdateQuery = "UPDATE qrtable SET translation = %s WHERE SKU = %s and Company = %s"
 
     #Check to see if an object already exists in the database
-    ProductSKUCheck = QRDataBase.cursor()
+    ProductSKUCheck = ProductDataBase.cursor()
     ProductSKUCheck.execute(CheckProductSKUQuery, (ProductTuple[PositionOfProductSKU],))
     ProductSKUCheckResult = ProductSKUCheck.fetchone()
 
     #Check to see if an object already exists in the database
-    CompanyCheck = QRDataBase.cursor()
+    CompanyCheck = ProductDataBase.cursor()
     CompanyCheck.execute(CheckCompanyNameQuery, (ProductTuple[PositionOfCompanyName],))
     CompanyCheckResult = CheckCompanyNameQuery.fetchone()
 
     if ProductSKUCheckResult and CompanyCheckResult:
-        TranslationUpdate = QRDataBase.cursor()
+        TranslationUpdate = ProductDataBase.cursor()
         TranslationUpdate.execute(UpdateQuery, (ProductTuple[PositionOfTranslation], ProductTuple[PositionOfProductSKU], ProductTuple[PositionOfCompanyName],))
         TranslationUpdate.commit()
-        QRDataBase.close()
-        QRDataBase.close()
+        ProductDataBase.close()
+        ProductDataBase.close()
     else:
         print("Unable to update database existing entry does not exist.")
