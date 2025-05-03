@@ -35,5 +35,13 @@ def checkPassword(username):
 def passwordCompare(PasswordHash, PasswordDatabaseCheckResult):
     if PasswordHash == PasswordDatabaseCheckResult:
         print("Access Allowed")
+        return True
     else:
         print("Access Denied")
+        return False
+
+def completePasswordCheck(username, password):
+    PasswordHash = inputHash(password)
+    PasswordDatabaseCheckResult = checkPassword(username)
+    AllowDeny = passwordCompare(PasswordHash, PasswordDatabaseCheckResult)
+    return AllowDeny
