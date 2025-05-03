@@ -189,8 +189,8 @@ def newCompany(newCompanyName):
     )
 
 
-    #Stores the query to check if the hash is in the database.
-    CheckQuery = "SELECT * FROM allowedcompanies WHERE allowedcompanieslist = %s"
+    #Stores the query to check if the company exists in the database.
+    CheckQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"
     #Stores the query to add the new data to the database.
     InsertQuery = "INSERT INTO allowedcompanies (allowedcompanieslist) Values (%s)"
 
@@ -210,3 +210,30 @@ def newCompany(newCompanyName):
         CompanyDatabaseAdd.close()
         CompanyDataBase.close()
         print("This company has now been added to the database.")
+
+def updateTranslation(ProductTuple):
+    #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
+    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
+
+    QRDataBase = mysql.connector.connect(
+    host="localhost",
+    port=3306,
+    user="root",
+    password=os.getenv("MYSQLPassword"),
+    database="dev_db"
+    )
+
+    #Stores the query to check if the company exists is in the database.
+    CheckProductSKUQuery = "SELECT SKU FROM qrtable WHERE SKU = %s"
+    #Stores the query to add the new data to the database.
+    CheckCompanyNameQuery = "SELECT Company FROM qrtable WHERE Company = %s"
+
+    #Check to see if an object already exists in the database
+    ProductSKUCheck = QRDataBase.cursor()
+    ProductSKUCheck.execute(CheckProductSKUQuery, (ProductTuple[PositionOfProductSKU],))
+    ProductSKUCheckResult = CheckProductSKUQuery.fetchone()
+
+    #Check to see if an object already exists in the database
+    CompanyCheck = QRDataBase.cursor()
+    CompanyCheck.execute(CheckCompanyNameQuery, (QRHash,))
+    CompanyCheckResult = CheckCompanyNameQuery.fetchone()
