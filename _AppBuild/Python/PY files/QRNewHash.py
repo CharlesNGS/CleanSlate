@@ -1,6 +1,5 @@
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from QRDatabaseManagementFunctions import AddQRToDataBase
 from hashlib import sha256
 import qrcode
 
@@ -25,34 +24,3 @@ def QRMaker(ProductURL):
     QRParameters.make(fit=True)
     QRCode = QRParameters.make_image()
     return QRCode
-
-def newProduct(ProductTuple):
-    PositionOfCompanyName = 0
-    PositionOfProductSKU = 1
-    PositionOfTranslation = 2
-
-    Companyname = ProductTuple[PositionOfCompanyName]
-    ProductSKU = ProductTuple[PositionOfProductSKU]
-    Translation = ProductTuple[PositionOfTranslation]
-    CompanynameForHash = Companyname.strip().lower()
-    ProductSKUForHash = ProductSKU.strip().lower()
-
-    #Statement to verify all variables exist in a format that the query can use
-    if CompanynameForHash and ProductSKUForHash and Translation:
-        QRHash = hashMaker(CompanynameForHash, ProductSKUForHash)
-        ProductURL = URLMaker(QRHash)
-        QRCode = QRMaker(ProductURL)
-
-        #Confirms the items are added to the database before saving the QR Code
-        if AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
-            QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
-            print("Database has been updated with the new details for this product.")
-        else:
-            print("Details provided could not be saved to the database. Please check the details and try again.")
-            quit()
-    else:
-        print(f"""Missing input please check the following fields:
-              Company Name: {Companyname or '[MISSING]'}
-              Product SKU: {ProductSKU or '[MISSING]'}
-              Translation: {Translation or '[MISSING]'}""")
-        quit()

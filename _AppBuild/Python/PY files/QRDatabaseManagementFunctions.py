@@ -4,57 +4,10 @@ sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
 from DataBaseConnections import companyDatabase
 from DataBaseConnections import productDatabase
 from dotenv import load_dotenv
-from hashlib import sha256
-import csv
-import mysql.connector
-import os
-import qrcode
 
-#Function to take a company and their product SKU, turn it into a hash.
-def hashMaker(CompanynameForHash, ProductSKUForHash):
-    preHashDetails = (CompanynameForHash+ProductSKUForHash).encode('utf-8')
-    QRHash = sha256(preHashDetails).hexdigest()
-    return QRHash
-
-#Takes a hash and turns it into a complete URL
-def URLMaker(QRHash):
-    MyURL = "mywebsite.com/verify?hash="
-    ProductURL = MyURL+QRHash
-    return ProductURL
-
-#Takes a URL and turns it into a QR code. QR Code is made into an image and saved to a variable.
-def QRMaker(ProductURL):
-    #Highest level of error correction and lowest QR Code version that supports enough characters for the URL
-    QRParameters = qrcode.QRCode(version= 8,
-                                 error_correction=qrcode.constants.ERROR_CORRECT_H)
-    QRParameters.add_data(ProductURL)
-    QRParameters.make(fit=True)
-    QRCode = QRParameters.make_image()
-    return QRCode
-
-#Function that runs once to see if the CSV is in order or malformed
-def OrderOfProducts(ProductTuple, ProductRequirements):
-    #Product requirements checks that all the columns correctly exist
-    ProductTupleFields = tuple(ProductField.strip().lower() for ProductField in ProductTuple)
-    if ProductRequirements.issubset(ProductTupleFields):
-        CompanynamePosition = ProductTupleFields.index("companyname")
-        ProductSKUPosition = ProductTupleFields.index("productsku")
-        TranslationPosition = ProductTupleFields.index("translation")
-        print(f"CompanynamePosition is equal to {CompanynamePosition}")
-        print(f"ProductSKUPosition is equal to {ProductSKUPosition}")
-        print(f"TranslationPosition is equal to {TranslationPosition}")
-        return (CompanynamePosition, ProductSKUPosition, TranslationPosition)
-    else:
-        print("CSV is malformed. Please check that the following titles exist in the first line: Companyname, ProductSKU, Translation.")
-        quit()
-
-def AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
-    #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
-    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
-
+def addProductToDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
     ProductDataBase = productDatabase
-
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
     CompanyDataBase = companyDatabase
 
@@ -94,90 +47,12 @@ def AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProdu
         ProductDataBase.close()
         return True
 
-#Function to merge all other functions allowing them to run in order and trigger only if all information is satisfied.
-def newProduct(ProductTuple):
-    PositionOfCompanyName = 0
-    PositionOfProductSKU = 1
-    PositionOfTranslation = 2
-
-    Companyname = ProductTuple[PositionOfCompanyName]
-    ProductSKU = ProductTuple[PositionOfProductSKU]
-    Translation = ProductTuple[PositionOfTranslation]
-    CompanynameForHash = Companyname.strip().lower()
-    ProductSKUForHash = ProductSKU.strip().lower()
-
-    #Statement to verify all variables exist in a format that the query can use
-    if CompanynameForHash and ProductSKUForHash and Translation:
-        QRHash = hashMaker(CompanynameForHash, ProductSKUForHash)
-        ProductURL = URLMaker(QRHash)
-        QRCode = QRMaker(ProductURL)
-
-        #Confirms the items are added to the database before saving the QR Code
-        if AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
-            QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
-            print("Database has been updated with the new details for this product.")
-        else:
-            print("Details provided could not be saved to the database. Please check the details and try again.")
-            quit()
-    else:
-        print(f"""Missing input please check the following fields:
-              Company Name: {Companyname or '[MISSING]'}
-              Product SKU: {ProductSKU or '[MISSING]'}
-              Translation: {Translation or '[MISSING]'}""")
-        quit()
-
-#Function to take company data and product data in bulk
-def newProductCSV(CSVNewProduct):
-    ProductsUnordered = True
-    with open(CSVNewProduct, 'r', encoding='utf-8-sig') as csvfile:
-        NewProductDetails = csv.reader(csvfile)
-        for ProductLine in NewProductDetails:
-            ProductTuple = tuple(ProductLine)
-
-            ProductRequirements = {"companyname", "productsku", "translation"}
-
-            if ProductsUnordered:
-                TupleOrderOfProducts = OrderOfProducts(ProductTuple, ProductRequirements)
-                PositionOfCompanyName = TupleOrderOfProducts[0]
-                PositionOfProductSKU = TupleOrderOfProducts[1]
-                PositionOfTranslation = TupleOrderOfProducts[2]
-                ProductsUnordered = False
-
-            elif ProductTuple and not ProductRequirements.issubset(ProductTuple):
-                Companyname = ProductTuple[PositionOfCompanyName]
-                ProductSKU = ProductTuple[PositionOfProductSKU]
-
-                CompanynameForHash = Companyname.strip().lower()
-                ProductSKUForHash = ProductSKU.strip().lower()
-
-                QRHash = hashMaker(CompanynameForHash, ProductSKUForHash)
-                ProductURL = URLMaker(QRHash)
-                QRCode = QRMaker(ProductURL)
-                if AddQRToDataBase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
-                    QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
-                    print("Database has been updated with the new details for this product.")
-                else:
-                    print(f"Details for {ProductTuple} provided could not be saved to the database. Please check the details and try again.")
-            else:
-                print("All lines added to database now.")
-                quit()
-                    
-
-#Function to merge all other functions allowing them to run in order for CSV files and trigger only if all information is satisfied.
-
-def newCompany(newCompanyName):
+def addCompanyToDatabase(newCompanyName):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\QRPasswordenv.env")
 
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
-    CompanyDataBase = mysql.connector.connect(
-        host="localhost",
-        port=3306,
-        user="root",
-        password=os.getenv("MYSQLPassword"),
-        database="dev_db"
-    )
-
+    CompanyDataBase = companyDatabase()
 
     #Stores the query to check if the company exists in the database.
     CheckQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"
@@ -201,7 +76,7 @@ def newCompany(newCompanyName):
         CompanyDataBase.close()
         print("This company has now been added to the database.")
 
-def updateTranslation(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
+def updateTranslationInDatabase(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
     load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
 
