@@ -18,8 +18,20 @@
       
         const handleSubmit = async (e) => {
           e.preventDefault();
-          console.log('Username:', username);
-          console.log('Password:', password);
+
+          const response = await fetch('http://localhost:5000/authentication', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              username,
+              password,
+            }),
+          });
+
+          const result = await response.json();
+          console.log('Server response:', result);
         };
 
         return (
