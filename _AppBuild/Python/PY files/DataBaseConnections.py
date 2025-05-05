@@ -41,7 +41,7 @@ def accountDatabase():
         host="localhost",
         port=3306,
         user="root",
-        password=os.getenv("AccountsPassword"),
-        database="second_db"
+        password=os.getenv("MYSQLPassword"),
+        database="useraccount"
     )
     return ProductDataBase
