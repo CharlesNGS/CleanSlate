@@ -31,3 +31,17 @@ def productDatabase():
         database="dev_db"
     )
     return ProductDataBase
+
+def accountDatabase():
+    
+    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
+    
+    
+    ProductDataBase = mysql.connector.connect(
+        host="localhost",
+        port=3306,
+        user="root",
+        password=os.getenv("AccountsPassword"),
+        database="second_db"
+    )
+    return ProductDataBase
