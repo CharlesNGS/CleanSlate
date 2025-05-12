@@ -21,7 +21,7 @@ def companyDatabase():
 
 def productDatabase():
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
-    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
+    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\QRPasswordenv.env")
 
     ProductDataBase = mysql.connector.connect(
         host="localhost",
@@ -34,8 +34,7 @@ def productDatabase():
 
 def accountDatabase():
     
-    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
-    
+    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\QRPasswordenv.env")
     
     ProductDataBase = mysql.connector.connect(
         host="localhost",
