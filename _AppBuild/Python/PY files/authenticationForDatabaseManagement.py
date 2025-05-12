@@ -24,7 +24,7 @@ def authentication():
 
         if databasePassword == password:
             print("Auth True")
-            return jsonify({'status': 'success'}), 200
+            return jsonify({'status': 'success', 'redirect': '/prototype2.html'}), 200
         else:
             print("Auth False")
             return jsonify({'status': 'unauthorized'}), 401

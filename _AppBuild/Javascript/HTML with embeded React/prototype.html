@@ -24,14 +24,17 @@
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              username,
-              password,
-            }),
+            body: JSON.stringify({ username, password }),
           });
 
           const result = await response.json();
-          console.log('Server response:', result);
+
+          if (response.ok && result.redirect) {
+            window.location.href = result.redirect;
+          } else {
+            alert('Authentication failed');
+            console.log('Login failed:', result);
+          }
         };
 
         return (
