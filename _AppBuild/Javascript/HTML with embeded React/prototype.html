@@ -30,7 +30,8 @@
           const result = await response.json();
 
           if (response.ok && result.redirect) {
-            window.location.href = result.redirect;
+            window.location.href = '/page2';
+
           } else {
             alert('Authentication failed');
             console.log('Login failed:', result);

@@ -9,6 +9,8 @@ def authentication():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
+    print(username)
+    print(password)
     password = sha256(password.encode('utf-8')).hexdigest()
 
     AccountDataBase = accountDatabase()
@@ -23,12 +25,12 @@ def authentication():
 
         if databasePassword == password:
             print("Auth True")
-            return jsonify({'status': 'success', 'redirect': 'D:/CleanSlate/_AppBuild/Javascript/HTML with embeded React/prototype2.html'}), 200
+            return jsonify({'status': 'success', 'redirect': 'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React\prototype2.html'}), 200
         else:
-            print("Auth False")
+            print("Auth False for databasePassword")
             return jsonify({'status': 'unauthorized'}), 401
     else:
-        print("Auth False")
+        print("Auth False for PasswordCheckInuseraccountDataBaseResult")
         return jsonify({'status': 'unauthorized'}), 401
     
 @app.route('/page1', methods=['GET', 'POST'])
