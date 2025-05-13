@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from QRDatabaseManagementFunctions import addProductToProductDatabase
-from QRCSVManagement import checkCSVOrderAndContents
+from _AppBuild.Python.PYFiles.adminFunctions.QRDatabaseManagementFunctions import addProductToProductDatabase
+from _AppBuild.Python.PYFiles.adminFunctions.QRCSVManagement import checkCSVOrderAndContents
 from createHashURLandQR import hashMaker
 from createHashURLandQR import URLMaker
 from createHashURLandQR import QRMaker
