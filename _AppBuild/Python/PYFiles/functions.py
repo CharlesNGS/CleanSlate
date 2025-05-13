@@ -1,8 +1,7 @@
-from flask import Flask, send_from_directory, jsonify, request
+from flask import jsonify, request
 from hashlib import sha256
 from DataBaseConnections import accountDatabase
-
-app = Flask(__name__)
+from PYFiles import app
 
 @app.route('/authentication', methods=['POST'])
 def authentication():    
@@ -32,14 +31,3 @@ def authentication():
     else:
         print("Auth False for PasswordCheckInuseraccountDataBaseResult")
         return jsonify({'status': 'unauthorized'}), 401
-    
-@app.route('/page1', methods=['GET', 'POST'])
-def page1():
-    return send_from_directory('D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype.html')
-
-@app.route('/page2', methods=['GET', 'POST'])
-def page2():
-    return send_from_directory('D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype2.html')
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
