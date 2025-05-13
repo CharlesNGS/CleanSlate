@@ -1,7 +1,7 @@
 #Imported functions
-from _AppBuild.Python.PYFiles.adminFunctions.QRDatabaseManagementFunctions import newProduct
-from _AppBuild.Python.PYFiles.adminFunctions.QRDatabaseManagementFunctions import newProductCSV
-from _AppBuild.Python.PYFiles.adminFunctions.QRDatabaseManagementFunctions import newCompany
+from PYFiles import newProduct
+from PYFiles import newProductCSV
+from PYFiles import newCompany
 
 #Three inputs must be satisfied
 DataEntry = input("Specify input: CSV or Single")
