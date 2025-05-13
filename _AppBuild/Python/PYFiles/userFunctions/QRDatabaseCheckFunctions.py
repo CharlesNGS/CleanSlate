@@ -1,6 +1,7 @@
 #Imported modules
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
+import mysql.connector
 from DataBaseConnections import productDatabase
 import re
 

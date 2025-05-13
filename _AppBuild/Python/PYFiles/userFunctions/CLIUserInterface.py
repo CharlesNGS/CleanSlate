@@ -1,5 +1,5 @@
 #Imported functions.
-from _AppBuild.Python.PYFiles.userFunctions.QRDatabaseCheckFunctions import completeQuery
+from QRDatabaseCheckFunctions import completeQuery
 
 #Hash is the variable that queries the database.
 QRHashInput = input("qrHash")
