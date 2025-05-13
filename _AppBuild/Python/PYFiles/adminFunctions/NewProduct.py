@@ -1,10 +1,10 @@
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from _AppBuild.Python.PYFiles.adminFunctions.QRDatabaseManagementFunctions import addProductToProductDatabase
-from _AppBuild.Python.PYFiles.adminFunctions.QRCSVManagement import checkCSVOrderAndContents
-from createHashURLandQR import hashMaker
-from createHashURLandQR import URLMaker
-from createHashURLandQR import QRMaker
+from PYFiles import addProductToProductDatabase
+from PYFiles import checkCSVOrderAndContents
+from PYFiles import hashMaker
+from PYFiles import URLMaker
+from PYFiles import QRMaker
 import csv
 
 #Takes an input based off of a products details and creates all required components to add one single new product to a database
