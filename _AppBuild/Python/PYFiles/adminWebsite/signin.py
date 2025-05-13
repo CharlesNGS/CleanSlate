@@ -2,7 +2,7 @@
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
 from hashlib import sha256
-from _AppBuild.Python.Imports.DataBaseConnections import accountDatabase
+from _AppBuild.Python.PYFiles.DataBaseConnections import accountDatabase
 
 
 def checkPassword(username, password):
