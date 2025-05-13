@@ -1,7 +1,7 @@
 #Imported modules
 import sys
-sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from DataBaseConnections import companyDatabase, productDatabase
+sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python")
+from PYFiles.DataBaseConnections import companyDatabase, productDatabase
 from dotenv import load_dotenv
 
 def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
