@@ -1,7 +1,6 @@
 #Imported functions
-from PYFiles import newProduct
-from PYFiles import newProductCSV
-from PYFiles import newCompany
+from NewProduct import singleNewProduct, multipleNewProduct
+from NewCompany import newCompany
 
 #Three inputs must be satisfied
 DataEntry = input("Specify input: CSV or Single")
@@ -11,11 +10,11 @@ if DataEntry.lower() == "single":
     Translation = input("Product Description")
     ProductTuple = (Companyname, ProductSKU, Translation)
     #Use one function to perform the tasks of generating a QR code and adding new details to the database.
-    newProduct(ProductTuple)
+    singleNewProduct(ProductTuple)
 
 elif DataEntry.lower() == "csv":
     CSVNewProduct = input("Please paste file path.")
-    newProductCSV(CSVNewProduct)
+    multipleNewProduct(CSVNewProduct)
 
 elif DataEntry.lower() == "company":
     newCompanyName = input("Company Name")

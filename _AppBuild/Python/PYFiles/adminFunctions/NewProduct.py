@@ -1,10 +1,7 @@
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from PYFiles import addProductToProductDatabase
-from PYFiles import checkCSVOrderAndContents
-from PYFiles import hashMaker
-from PYFiles import URLMaker
-from PYFiles import QRMaker
+from DatabaseInteractions import addProductToProductDatabase
+from InputProcessing import checkCSVOrderAndContents, hashMaker, URLMaker, QRMaker
 import csv
 
 #Takes an input based off of a products details and creates all required components to add one single new product to a database

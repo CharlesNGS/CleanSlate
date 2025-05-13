@@ -1,8 +1,7 @@
 #Imported modules
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-from _AppBuild.Python.PYFiles.DataBaseConnections import companyDatabase
-from _AppBuild.Python.PYFiles.DataBaseConnections import productDatabase
+from DataBaseConnections import companyDatabase, productDatabase
 from dotenv import load_dotenv
 
 def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
@@ -46,35 +45,6 @@ def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, Pos
         ProductDatabaseAdd.close()
         ProductDataBase.close()
         return True
-
-def addCompanyToCompanyDatabase(newCompanyName):
-    #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
-    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\QRPasswordenv.env")
-
-    #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
-    CompanyDataBase = companyDatabase()
-
-    #Stores the query to check if the company exists in the database.
-    CompanyCheckInCompanyDataBaseQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"
-    #Stores the query to add the new data to the database.
-    CompanyInsertInCompanyDataBaseQuery = "INSERT INTO allowedcompanies (allowedcompanieslist) Values (%s)"
-
-    #Check to see if an object already exists in the database
-    CompanyCheckInCompanyDataBase = CompanyDataBase.cursor()
-    CompanyCheckInCompanyDataBase.execute(CompanyCheckInCompanyDataBaseQuery, (newCompanyName,))
-    CompanyCheckInCompanyDataBaseResult = CompanyCheckInCompanyDataBase.fetchone()
-    #If the QR code already exists
-    if CompanyCheckInCompanyDataBaseResult:
-        print("This company has already been added to the database.")
-        CompanyCheckInCompanyDataBase.close()
-        CompanyDataBase.close()
-    else:
-        CompanyDatabaseAdd = CompanyDataBase.cursor()
-        CompanyDatabaseAdd.execute(CompanyInsertInCompanyDataBaseQuery, (newCompanyName,))
-        CompanyDataBase.commit()
-        CompanyDatabaseAdd.close()
-        CompanyDataBase.close()
-        print("This company has now been added to the database.")
 
 def updateTranslationInProductDatabase(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
