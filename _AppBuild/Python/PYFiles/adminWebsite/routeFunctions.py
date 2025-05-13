@@ -1,5 +1,4 @@
 from flask import jsonify, request
-from PYFiles import app
 from signin import checkPassword
 
 @app.route('/authentication', methods=['POST'])

@@ -1,8 +1,9 @@
 #Imported modules
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
+sys.path.append(r'D:\CleanSlate\_AppBuild\Python')
 from hashlib import sha256
-from _AppBuild.Python.PYFiles.DataBaseConnections import accountDatabase
+from PYFiles.DataBaseConnections import accountDatabase
 
 
 def checkPassword(username, password):

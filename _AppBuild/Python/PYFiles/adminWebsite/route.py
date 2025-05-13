@@ -1,6 +1,3 @@
-from flask import send_from_directory
-from PYFiles import app
-
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
     return 'homepage'
