@@ -10,7 +10,7 @@ def checkPassword(username, password):
     password = sha256(password.encode('utf-8')).hexdigest()
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use for quering the database.
     AccountDataBase = accountDatabase()
-    CheckQuery = "SELECT passwordHash FROM accounts WHERE username = %s"
+    CheckQuery = "SELECT password FROM users WHERE username = %s"
     print(username)
     print(password)
     PasswordDatabaseCheck = AccountDataBase.cursor()

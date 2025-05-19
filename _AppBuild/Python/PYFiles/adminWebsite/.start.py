@@ -2,6 +2,7 @@ from flask import Flask, session, redirect, url_for, send_from_directory, jsonif
 from signin import checkPassword
 
 app = Flask(__name__, instance_relative_config=True)
+app.secret_key = 'secretKey'
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
