@@ -15,6 +15,7 @@
       function FileUpload() {
         const [file, setFile] = React.useState(null);
         const [isCSV, setIsCSV] = React.useState(false);
+        const [response, setResponse] = React.useState(null);
 
         const handleFileChange = (e) => {
           const selectedFile = e.target.files[0];
@@ -29,22 +30,38 @@
           setIsCSV(valid);
         };
 
-        const handleSubmit = (e) => {
+        const handleSubmit = async (e) => {
           e.preventDefault();
-          alert(`Submitting: ${file.name}`);
+          if (!file || !isCSV) {
+            alert('Please select a valid CSV file.');
+            return;
+          }
 
+          const formData = new FormData();
+          formData.append('file', file);
+
+          try {
+            const res = await fetch('/upload_csv', {
+              method: 'POST',
+              body: formData,
+            });
+
+            const result = await res.json();
+            setResponse(result);
+            alert(`Server response: ${JSON.stringify(result)}`);
+          } catch (error) {
+            alert('Upload failed. Check console for details.');
+            console.error(error);
+          }
         };
 
         return (
           <form onSubmit={handleSubmit}>
-            <label>
-              Upload a CSV File:
-              <input type="file" accept=".csv" onChange={handleFileChange} />
-            </label>
-            <br />
-            <button type="submit" disabled={!isCSV}>
-                Submit
-            </button>
+            <input type="file" accept=".csv" onChange={handleFileChange} />
+            <button type="submit" disabled={!isCSV}>Upload</button>
+            {response && (
+              <pre>{JSON.stringify(response, null, 2)}</pre>
+            )}
           </form>
         );
       }

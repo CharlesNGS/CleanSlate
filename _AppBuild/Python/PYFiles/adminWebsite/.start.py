@@ -33,6 +33,19 @@ def authentication():
     else:
         return jsonify({'status': 'unauthorized'}), 401
 
+@app.route('/upload_csv', methods=['POST'])
+def upload_csv():
+    if not session.get('authenticated'):
+        return redirect(url_for('page1'))
+    try:
+        # Save file, call multipleNewProduct, etc.
+        ...
+        return jsonify({"status": "success"}), 200
+    except ValueError as ve:
+        return jsonify({"status": "error", "message": str(ve)}), 400
+    except Exception as e:
+        return jsonify({"status": "error", "message": "Unexpected error"}), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
