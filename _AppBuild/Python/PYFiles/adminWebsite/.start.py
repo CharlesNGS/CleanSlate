@@ -3,6 +3,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
+from PYFiles.adminFunctions import multipleNewProduct
 
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
@@ -56,7 +57,7 @@ def upload_csv():
     save_path = os.path.join(r"D:\CleanSlate\_AppBuild\Python\Referenced Files", unique_filename)
     file.save(save_path)
 
-
+    multipleNewProduct(save_path)
 
     return {'status': 'success', 'saved_as': unique_filename}, 200
 
