@@ -38,22 +38,23 @@ def singleNewProduct(ProductTuple):
 
 #Takes an input based off of a products details and creates all required components to add as many new products as there are in a CSV to a database
 def multipleNewProduct(CSVNewProduct):
-    ProductsUnordered = True
+    LineNumber = 0
+    FailedCSVLines = []
     with open(CSVNewProduct, 'r', encoding='utf-8-sig') as csvfile:
         NewProductDetails = csv.reader(csvfile)
         for ProductLine in NewProductDetails:
             ProductTuple = tuple(ProductLine)
-
             ProductRequirements = {"companyname", "productsku", "translation"}
+            LineNumber += 1
 
-            if ProductsUnordered:
+            if LineNumber == 1:
                 TupleOrderOfProducts = checkCSVOrderAndContents(ProductTuple, ProductRequirements)
                 PositionOfCompanyName = TupleOrderOfProducts[0]
                 PositionOfProductSKU = TupleOrderOfProducts[1]
                 PositionOfTranslation = TupleOrderOfProducts[2]
-                ProductsUnordered = False
 
-            elif ProductTuple and not ProductRequirements.issubset(ProductTuple):
+
+            elif ProductTuple and LineNumber > 1:
                 Companyname = ProductTuple[PositionOfCompanyName]
                 ProductSKU = ProductTuple[PositionOfProductSKU]
 
@@ -68,6 +69,10 @@ def multipleNewProduct(CSVNewProduct):
                     print("Database has been updated with the new details for this product.")
                 else:
                     print(f"Details for {ProductTuple} provided could not be saved to the database. Please check the details and try again.")
+                    FailedCSVLines.append({"Missing Line" : ProductTuple, "Missing Line Number" : LineNumber})
             else:
-                print("All lines added to database now.")
-                quit()
+                if FailedCSVLines:
+                    print(f"Lines added to database excluding: {FailedCSVLines}")
+                    return FailedCSVLines
+                else:
+                    print("All lines added to database.")
