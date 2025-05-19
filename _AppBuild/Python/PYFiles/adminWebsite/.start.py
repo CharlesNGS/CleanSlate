@@ -3,7 +3,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
-from PYFiles.adminFunctions import multipleNewProduct
+from ..adminFunctions import multipleNewProduct
 
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
@@ -49,7 +49,6 @@ def upload_csv():
     if file.filename == '':
         return {'status': 'error', 'message': 'No selected file'}, 400
 
-    # Timestamp prefix (e.g. 20250520_153012_filename.csv)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = secure_filename(file.filename)
     unique_filename = f"{timestamp}_{filename}"
@@ -58,6 +57,8 @@ def upload_csv():
     file.save(save_path)
 
     multipleNewProduct(save_path)
+
+    os.remove(save_path)
 
     return {'status': 'success', 'saved_as': unique_filename}, 200
 
