@@ -19,7 +19,7 @@
         const handleSubmit = async (e) => {
           e.preventDefault();
 
-          const response = await fetch('http://localhost:5000/authentication', {
+          const response = await fetch('/authentication', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -30,7 +30,7 @@
           const result = await response.json();
 
           if (response.ok && result.redirect) {
-            window.location.href = '/page2';
+            window.location.href = result.redirect;
 
           } else {
             alert('Authentication failed');

@@ -11,7 +11,8 @@ def checkPassword(username, password):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use for quering the database.
     AccountDataBase = accountDatabase()
     CheckQuery = "SELECT passwordHash FROM accounts WHERE username = %s"
-    
+    print(username)
+    print(password)
     PasswordDatabaseCheck = AccountDataBase.cursor()
     PasswordDatabaseCheck.execute(CheckQuery, (username,))
     PasswordDatabaseCheckResult = PasswordDatabaseCheck.fetchone()

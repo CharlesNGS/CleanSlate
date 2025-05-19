@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, jsonify, request
+from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
 
 app = Flask(__name__, instance_relative_config=True)
@@ -13,6 +13,8 @@ def page1():
 
 @app.route('/page2', methods=['GET', 'POST'])
 def page2():
+    if not session.get('authenticated'):
+        return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype2.html')
 
 @app.route('/authentication', methods=['POST'])
@@ -20,11 +22,13 @@ def authentication():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
-
+    print(username)
+    print(password)
     CheckPassword = checkPassword(username, password)
 
     if CheckPassword:
-        return jsonify({'status': 'success', 'redirect': r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React\prototype2.html'}), 200
+        session['authenticated'] = True
+        return jsonify({'status': 'success', 'redirect': '/page2'}), 200
     else:
         return jsonify({'status': 'unauthorized'}), 401
 
