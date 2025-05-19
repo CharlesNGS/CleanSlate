@@ -1,18 +1,16 @@
 #Imported modules
 import sys
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
-import mysql.connector
-from DataBaseConnections import productDatabase
+#import mysql.connector
+from PYFiles.DataBaseConnections import productDatabase
 import re
 
 #Function for testing if the input is valid. This helps prevent SQL injection and wasted processing.
 def hashValidation(HashInput):
     # SHA256 hash is 64 characters and only uses characters a-f, A-F and 0-9
     if len(HashInput) == 64 and re.fullmatch(r'^[0-9a-fA-F]{64}$', HashInput):
-        print("This is a hash")
         return True
     else:
-        print("no hash")
         return False
 
 #Estabilishes a connection to the database. Sends the query to the database with the verified hash. Returns the result associated with the hash if one exists.
