@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
 
@@ -37,14 +40,25 @@ def authentication():
 def upload_csv():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    try:
-        # Save file, call multipleNewProduct, etc.
-        ...
-        return jsonify({"status": "success"}), 200
-    except ValueError as ve:
-        return jsonify({"status": "error", "message": str(ve)}), 400
-    except Exception as e:
-        return jsonify({"status": "error", "message": "Unexpected error"}), 500
+    
+    if 'file' not in request.files:
+        return {'status': 'error', 'message': 'No file part in the request'}, 400
+
+    file = request.files['file']
+    if file.filename == '':
+        return {'status': 'error', 'message': 'No selected file'}, 400
+
+    # Timestamp prefix (e.g. 20250520_153012_filename.csv)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = secure_filename(file.filename)
+    unique_filename = f"{timestamp}_{filename}"
+
+    save_path = os.path.join(r"D:\CleanSlate\_AppBuild\Python\Referenced Files", unique_filename)
+    file.save(save_path)
+
+
+
+    return {'status': 'success', 'saved_as': unique_filename}, 200
 
 
 if __name__ == '__main__':
