@@ -1,14 +1,15 @@
 #Imported modules
 import sys
+import mysql.connector
 sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python")
 from PYFiles.DataBaseConnections import companyDatabase, productDatabase
 from dotenv import load_dotenv
 
 def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
-    ProductDataBase = productDatabase
+    ProductDataBase = productDatabase()
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
-    CompanyDataBase = companyDatabase
+    CompanyDataBase = companyDatabase()
 
     #Stores the query to check if the hash is in the database.
     CompanyCheckInCompanyDataBaseQuery = "SELECT allowedcompanieslist FROM allowedcompanies WHERE allowedcompanieslist = %s"

@@ -3,7 +3,7 @@ from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
-from ..adminFunctions import multipleNewProduct
+from PYFiles.adminFunctions.NewProduct import multipleNewProduct
 
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
@@ -53,7 +53,8 @@ def upload_csv():
     filename = secure_filename(file.filename)
     unique_filename = f"{timestamp}_{filename}"
 
-    save_path = os.path.join(r"D:\CleanSlate\_AppBuild\Python\Referenced Files", unique_filename)
+    save_path = str(os.path.join(r"D:\CleanSlate\_AppBuild\Python\Referenced Files", unique_filename))
+    print(save_path)
     file.save(save_path)
 
     multipleNewProduct(save_path)
