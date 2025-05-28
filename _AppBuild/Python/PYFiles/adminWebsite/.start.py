@@ -107,5 +107,21 @@ def addCompany():
     else:
         return jsonify({'status': 'unauthorized'}), 401
 
+@app.route('/buttonNewProduct', methods=['POST'])
+def buttonNewProduct():
+    return jsonify({'status': 'success', 'redirect': '/page3'}), 200
+
+@app.route('/buttonNewCompany', methods=['POST'])
+def buttonNewCompany():
+    return jsonify({'status': 'success', 'redirect': '/page4'}), 200
+
+@app.route('/buttonUpdateProduct', methods=['POST'])
+def buttonUpdateProduct():
+    return jsonify({'status': 'success', 'redirect': '/page5'}), 200
+
+@app.route('/buttonUpdateCompany', methods=['POST'])
+def buttonUpdateCompany():
+    return jsonify({'status': 'success', 'redirect': '/page6'}), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -25,13 +25,13 @@
 
         return (
           <div>
-            <button onClick={handleRedirect}>New Product</button>
+            <button onClick={() => handleRedirect("/buttonNewProduct")}>New Product</button>
           <br />
-            <button onClick={handleRedirect}>New Company</button>
+            <button onClick={() => handleRedirect("/buttonNewCompany")}>New Company</button>
           <br />
-            <button onClick={handleRedirect}>Update Product</button>
+            <button onClick={() => handleRedirect("/buttonUpdateProduct")}>Update Product</button>
           <br />
-            <button onClick={handleRedirect}>Update Company</button>
+            <button onClick={() => handleRedirect("/buttonUpdateCompany")}>Update Company</button>
           </div>
           );
       }
