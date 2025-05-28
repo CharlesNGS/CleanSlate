@@ -28,6 +28,24 @@ def page3():
         return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype2.html')
 
+@app.route('/page4', methods=['GET', 'POST'])
+def page4():
+    if not session.get('authenticated'):
+        return redirect(url_for('page1'))
+    return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype3.html')
+
+@app.route('/page5', methods=['GET', 'POST'])
+def page5():
+    if not session.get('authenticated'):
+        return redirect(url_for('page1'))
+    return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype4.html')
+
+@app.route('/page6', methods=['GET', 'POST'])
+def page6():
+    if not session.get('authenticated'):
+        return redirect(url_for('page1'))
+    return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype5.html')
+
 @app.route('/authentication', methods=['POST'])
 def authentication():
     data = request.get_json()
