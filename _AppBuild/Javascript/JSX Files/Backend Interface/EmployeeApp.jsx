@@ -1,14 +1,32 @@
 import React, { useState } from 'react';
-import 'D:\CleanSlate\_AppBuild\Style CSS\CSS Files';
+import 'D:\CleanSlate\_AppBuild\Style CSS\CSS Files\EmployeeApplicationStyle.css';
 
 function Signin() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     
     const handleSubmit = async (e) => {
+        e.preventDefault();
 
+          const response = await fetch('/authentication', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+          });
 
+          const result = await response.json();
+
+          if (response.ok && result.redirect) {
+            window.location.href = result.redirect;
+
+          } else {
+            alert('Authentication failed');
+            console.log('Login failed:', result);
+          }
     };
+
     return (
       <form onSubmit={handleSubmit}>
         <div>
@@ -23,6 +41,7 @@ function Signin() {
                     onChange={(e) => setUsername(e.target.value)}
                     />
                 </label>
+                <br />
                 <label
                 className="font center">
                     Password:
@@ -34,11 +53,11 @@ function Signin() {
                     />
                 </label>
             </div>
+            <br />
             <div>
                 <button 
                 className="font center"
                 type="submit"
-                onClick={handleSubmit}
                 >
                     Sign In:
                 </button>
