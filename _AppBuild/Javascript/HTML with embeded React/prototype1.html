@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Function Choice</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React;
+      
+      function buttons() {
+        const handleRedirect = async (e) => {
+          e.preventDefault();
+
+          const result = await response.json();
+
+          if (response.ok && result.redirect) {
+            window.location.href = result.redirect;
+          }
+        };
+
+        return (
+          <div>
+            <button onClick={handleRedirect}>New Product</button>
+          <br />
+            <button onClick={handleRedirect}>New Company</button>
+          <br />
+            <button onClick={handleRedirect}>Update Product</button>
+          <br />
+            <button onClick={handleRedirect}>Update Company</button>
+          </div>
+          );
+        }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(<buttons />);
+    </script>
+  </body>
+</html>

@@ -20,6 +20,12 @@ def page1():
 def page2():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
+    return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype1.html')
+
+@app.route('/page3', methods=['GET', 'POST'])
+def page3():
+    if not session.get('authenticated'):
+        return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype2.html')
 
 @app.route('/authentication', methods=['POST'])
