@@ -1,6 +1,6 @@
 #Imported functions
 from NewProduct import singleNewProduct, multipleNewProduct
-from NewCompany import newCompany
+from NewCompany import addCompanyToCompanyDatabase
 
 #Three inputs must be satisfied
 DataEntry = input("Specify input: CSV or Single")
@@ -18,6 +18,6 @@ elif DataEntry.lower() == "csv":
 
 elif DataEntry.lower() == "company":
     newCompanyName = input("Company Name")
-    newCompany(newCompanyName)
+    addCompanyToCompanyDatabase(newCompanyName)
 else:
     print("Input needs to be one of the following CSV or Single")
