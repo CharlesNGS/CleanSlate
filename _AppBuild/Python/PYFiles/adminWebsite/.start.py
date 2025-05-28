@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
 from PYFiles.adminFunctions.NewProduct import multipleNewProduct
+from PYFiles.adminFunctions.NewCompany import addCompanyToCompanyDatabase
 
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
@@ -12,39 +13,47 @@ app.secret_key = 'secretKey'
 def homepage():
     return 'homepage'
 
+#sign in
 @app.route('/page1', methods=['GET', 'POST'])
 def page1():
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype.html')
 
+#Select function
 @app.route('/page2', methods=['GET', 'POST'])
 def page2():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype1.html')
 
+#Create new product
 @app.route('/page3', methods=['GET', 'POST'])
 def page3():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype2.html')
 
+#Create new company
 @app.route('/page4', methods=['GET', 'POST'])
 def page4():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype3.html')
 
+#Update existing product
 @app.route('/page5', methods=['GET', 'POST'])
 def page5():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype4.html')
 
+#Update existing company
 @app.route('/page6', methods=['GET', 'POST'])
 def page6():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
     return send_from_directory(r'D:\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype5.html')
+
+
 
 @app.route('/authentication', methods=['POST'])
 def authentication():
@@ -87,6 +96,16 @@ def upload_csv():
 
     return {'status': 'success', 'saved_as': unique_filename}, 200
 
+@app.route('/addCompany', methods=['POST'])
+def addCompany():
+    data = request.get_json()
+    companyName = data.get('company')
+    AddCompany = addCompanyToCompanyDatabase(companyName)
+    
+    if AddCompany:
+        return jsonify({'status': 'success'}), 200
+    else:
+        return jsonify({'status': 'unauthorized'}), 401
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

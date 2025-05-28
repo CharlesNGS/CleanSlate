@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>functionxyz</title>
+    <title>Add Company</title>
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -12,11 +12,50 @@
     <script type="text/babel">
       const { useState } = React;
       
-      function Functionxyz() {
-    
+      function AddCompany() {
+        const [company, setCompany] = useState('')
+      
+        const handleSubmit = async (e) => {
+          e.preventDefault();
+
+          const response = await fetch('/addCompany', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ company, }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.redirect) {
+            window.location.href = result.redirect;
+
+          } else {
+            alert('Company already exists in database');
+            console.log('Add company failed:', result);
+          }
+        };
+
+        return (
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>
+                Company:
+                <input
+                  type="text"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+              </label>
+              <br />
+              <button type="submit">Add company</button>
+            </div>
+          </form>
+        );
       }
 
-      ReactDOM.createRoot(document.getElementById('root')).render(<Functionxyz />);
+      ReactDOM.createRoot(document.getElementById('root')).render(<AddCompany />);
     </script>
   </body>
 </html>
