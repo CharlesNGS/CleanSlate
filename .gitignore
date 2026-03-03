@@ -6,6 +6,12 @@
 # Environment variables and secret configs
 .env
 
+# Docker related files
+.dockerignore
+Dockerfile
+compose.yaml
+README.Docker.md
+
 # OS files
 .DS_Store
 Thumbs.db
