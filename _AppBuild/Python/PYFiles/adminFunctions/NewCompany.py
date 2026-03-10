@@ -1,4 +1,4 @@
-from DataBaseConnections import companyDatabase
+from PYFiles.DataBaseConnections import companyDatabase
 
 def addCompanyToCompanyDatabase(newCompanyName):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
