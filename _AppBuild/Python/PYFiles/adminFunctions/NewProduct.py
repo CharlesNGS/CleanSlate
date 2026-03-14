@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from PYFiles.adminFunctions.DatabaseInteractions import addProductToProductDatabase
 from PYFiles.adminFunctions.InputProcessing import checkCSVOrderAndContents, hashMaker, URLMaker, QRMaker
 import csv
@@ -24,7 +25,7 @@ def singleNewProduct(ProductTuple):
 
         #Confirms the items are added to the database before saving the QR Code
         if addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
-            QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
+            QRCode.save(Path('_AppBuild\Python\Referenced Files\qrcode.png'))
             print("Database has been updated with the new details for this product.")
         else:
             print("Details provided could not be saved to the database. Please check the details and try again.")
@@ -65,7 +66,7 @@ def multipleNewProduct(CSVNewProduct):
                 ProductURL = URLMaker(QRHash)
                 QRCode = QRMaker(ProductURL)
                 if addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
-                    QRCode.save(r'D:\CleanSlate\_AppBuild\Python\Referenced Files\qrcode.png')
+                    QRCode.save(Path('_AppBuild\Python\Referenced Files\qrcode.png'))
                     print("Database has been updated with the new details for this product.")
                 else:
                     print(f"Details for {ProductTuple} provided could not be saved to the database. Please check the details and try again.")

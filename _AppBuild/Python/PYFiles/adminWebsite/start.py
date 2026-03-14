@@ -1,13 +1,19 @@
 import os
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
 from PYFiles.adminFunctions.NewProduct import multipleNewProduct
 from PYFiles.adminFunctions.NewCompany import addCompanyToCompanyDatabase
-
+BASE_DIR = Path(__file__).parent.parent.parent.parent.parent
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
+
+print(BASE_DIR / "Javascript/HTML with embeded React" / "prototype.html")
+print(BASE_DIR)
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -16,42 +22,42 @@ def homepage():
 #sign in
 @app.route('/page1', methods=['GET', 'POST'])
 def page1():
-    return send_from_directory(r'G:\CleanSlate\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype.html')
+    return send_from_directory(BASE_DIR / "Javascript/HTML with embeded React", "prototype.html")
 
 #Select function
 @app.route('/page2', methods=['GET', 'POST'])
 def page2():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(r'G:\CleanSlate\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype1.html')
+    return send_from_directory(BASE_DIR / "Javascript/HTML with embeded React", "prototype1.html")
 
 #Create new product
 @app.route('/page3', methods=['GET', 'POST'])
 def page3():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(r'G:\CleanSlate\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype2.html')
+    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype2.html')
 
 #Create new company
 @app.route('/page4', methods=['GET', 'POST'])
 def page4():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(r'G:\CleanSlate\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype3.html')
+    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype3.html')
 
 #Update existing product
 @app.route('/page5', methods=['GET', 'POST'])
 def page5():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(r'G:\CleanSlate\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype4.html')
+    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype4.html')
 
 #Update existing company
 @app.route('/page6', methods=['GET', 'POST'])
 def page6():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(r'G:\CleanSlate\CleanSlate\_AppBuild\Javascript\HTML with embeded React', 'prototype5.html')
+    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype5.html')
 
 
 
@@ -86,7 +92,7 @@ def upload_csv():
     filename = secure_filename(file.filename)
     unique_filename = f"{timestamp}_{filename}"
 
-    save_path = str(os.path.join(r"D:\CleanSlate\_AppBuild\Python\Referenced Files", unique_filename))
+    save_path = str(os.path.join(Path('Javascript/HTML with embeded React'), unique_filename))
     print(save_path)
     file.save(save_path)
 

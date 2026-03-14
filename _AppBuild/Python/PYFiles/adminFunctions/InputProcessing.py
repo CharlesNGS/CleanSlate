@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from hashlib import sha256
 import qrcode
 

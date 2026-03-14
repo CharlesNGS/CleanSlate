@@ -1,7 +1,7 @@
 #Imported modules
 import sys
-sys.path.insert(0, r"G:\CleanSlate\CleanSlate\_AppBuild\Python\Imports")
-sys.path.append(r'G:\CleanSlate\CleanSlate\_AppBuild\Python')
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 from hashlib import sha256
 from PYFiles.DataBaseConnections import accountDatabase
 

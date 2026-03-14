@@ -1,9 +1,11 @@
 #Imported modules
 import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
 import mysql.connector
-sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python")
 from PYFiles.DataBaseConnections import companyDatabase, productDatabase
 from dotenv import load_dotenv
+
 
 def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.
@@ -49,7 +51,7 @@ def addProductToProductDatabase(QRHash, ProductTuple, PositionOfCompanyName, Pos
 
 def updateTranslationInProductDatabase(ProductTuple, PositionOfCompanyName, PositionOfProductSKU, PositionOfTranslation):
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
-    load_dotenv(dotenv_path=r"D:\CleanSlate\_AppBuild\Python\Referenced Files\Python")
+    load_dotenv(dotenv_path=Path("_AppBuild/Python/Referenced Files/Python"))
 
     ProductDataBase = productDatabase()
 

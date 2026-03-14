@@ -6,7 +6,7 @@ import mysql.connector
 import os
 
 #Define the IP address of your database
-dataBaseIP = "172.16.0.3"
+dataBaseIP = "172.16.0.2"
 
 def companyDatabase():
     #ENV used for storing the password. Not best practice just a simple way to keep the password from being hard coded.
