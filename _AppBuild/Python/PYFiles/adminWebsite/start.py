@@ -1,18 +1,20 @@
 import os
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+BASE_DIR = Path(__file__).resolve()
+while not (BASE_DIR / "_AppBuild").exists():
+    BASE_DIR = BASE_DIR.parent
+sys.path.append(BASE_DIR)
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
 from PYFiles.adminFunctions.NewProduct import multipleNewProduct
 from PYFiles.adminFunctions.NewCompany import addCompanyToCompanyDatabase
-BASE_DIR = Path(__file__).parent.parent.parent.parent.parent
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
 
-print(BASE_DIR / "Javascript/HTML with embeded React" / "prototype.html")
+#print(BASE_DIR / "Javascript/HTML with embeded React" / "prototype.html")
 print(BASE_DIR)
 
 @app.route('/', methods=['GET', 'POST'])
