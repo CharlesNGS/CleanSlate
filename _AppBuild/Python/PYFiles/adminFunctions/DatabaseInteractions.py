@@ -1,7 +1,10 @@
 #Imported modules
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+rootDirectory = Path(__file__).resolve()
+while not (rootDirectory / "_AppBuild").exists():
+    rootDirectory = rootDirectory.parent
+sys.path.append(rootDirectory)
 import mysql.connector
 from PYFiles.DataBaseConnections import companyDatabase, productDatabase
 from dotenv import load_dotenv

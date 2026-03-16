@@ -1,9 +1,12 @@
 #Imported modules
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+rootDirectory = Path(__file__).resolve()
+while not (rootDirectory / "_AppBuild").exists():
+    rootDirectory = rootDirectory.parent
+sys.path.append(rootDirectory)
 from hashlib import sha256
-from PYFiles.DataBaseConnections import accountDatabase
+from DataBaseConnections import accountDatabase
 
 
 def checkPassword(username, password):

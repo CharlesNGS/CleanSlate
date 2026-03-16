@@ -1,6 +1,10 @@
 #Imported modules
 import sys
-sys.path.insert(0, r"D:\CleanSlate\_AppBuild\Python\Imports")
+from pathlib import Path
+rootDirectory = Path(__file__).resolve()
+while not (rootDirectory / "_AppBuild").exists():
+    rootDirectory = rootDirectory.parent
+sys.path.append(rootDirectory)
 #import mysql.connector
 from PYFiles.DataBaseConnections import productDatabase
 import re

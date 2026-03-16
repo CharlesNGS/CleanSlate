@@ -1,10 +1,10 @@
 import os
 import sys
 from pathlib import Path
-BASE_DIR = Path(__file__).resolve()
-while not (BASE_DIR / "_AppBuild").exists():
-    BASE_DIR = BASE_DIR.parent
-sys.path.append(BASE_DIR)
+rootDirectory = Path(__file__).resolve()
+while not (rootDirectory / "_AppBuild").exists():
+    rootDirectory = rootDirectory.parent
+sys.path.append(rootDirectory)
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
@@ -15,7 +15,7 @@ app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
 
 #print(BASE_DIR / "Javascript/HTML with embeded React" / "prototype.html")
-print(BASE_DIR)
+print(rootDirectory)
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
@@ -24,42 +24,42 @@ def homepage():
 #sign in
 @app.route('/page1', methods=['GET', 'POST'])
 def page1():
-    return send_from_directory(BASE_DIR / "Javascript/HTML with embeded React", "prototype.html")
+    return send_from_directory(rootDirectory / "Javascript/HTML with embeded React", "prototype.html")
 
 #Select function
 @app.route('/page2', methods=['GET', 'POST'])
 def page2():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(BASE_DIR / "Javascript/HTML with embeded React", "prototype1.html")
+    return send_from_directory(rootDirectory / "Javascript/HTML with embeded React", "prototype1.html")
 
 #Create new product
 @app.route('/page3', methods=['GET', 'POST'])
 def page3():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype2.html')
+    return send_from_directory(rootDirectory / "Javascript/HTML with embeded React", "prototype2.html")
 
 #Create new company
 @app.route('/page4', methods=['GET', 'POST'])
 def page4():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype3.html')
+    return send_from_directory(rootDirectory / "Javascript/HTML with embeded React", "prototype3.html")
 
 #Update existing product
 @app.route('/page5', methods=['GET', 'POST'])
 def page5():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype4.html')
+    return send_from_directory(rootDirectory / "Javascript/HTML with embeded React", "prototype4.html")
 
 #Update existing company
 @app.route('/page6', methods=['GET', 'POST'])
 def page6():
     if not session.get('authenticated'):
         return redirect(url_for('page1'))
-    return send_from_directory(Path('Javascript/HTML with embeded React'), 'prototype5.html')
+    return send_from_directory(rootDirectory / "Javascript/HTML with embeded React", "prototype5.html")
 
 
 
