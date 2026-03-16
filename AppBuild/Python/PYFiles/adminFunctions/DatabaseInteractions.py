@@ -4,9 +4,9 @@ from pathlib import Path
 rootDirectory = Path(__file__).resolve()
 while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
-sys.path.append(rootDirectory)
+sys.path.append(str(rootDirectory))
 import mysql.connector
-from PYFiles.DataBaseConnections import companyDatabase, productDatabase
+from AppBuild.Python.PYFiles.DataBaseConnections import companyDatabase, productDatabase
 from dotenv import load_dotenv
 
 

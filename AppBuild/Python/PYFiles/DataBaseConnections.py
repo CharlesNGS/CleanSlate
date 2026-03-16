@@ -28,7 +28,7 @@ def productDatabase():
     load_dotenv(dotenv_path=rootDirectory / "_AppBuild/Python/Referenced Files/DatabaseENV.env")
 
     ProductDataBase = mysql.connector.connect(
-        host=os.getenv("MYSQLIP")
+        host=os.getenv("MYSQLIP"),
         port=3306,
         user="root",
         password=os.getenv("MYSQLPassword"),
@@ -41,7 +41,7 @@ def accountDatabase():
     load_dotenv(dotenv_path=rootDirectory / "_AppBuild/Python/Referenced Files/DatabaseENV.env")
     
     ProductDataBase = mysql.connector.connect(
-        host=os.getenv("MYSQLIP")
+        host=os.getenv("MYSQLIP"),
         port=3306,
         user="root",
         password=os.getenv("MYSQLPassword"),

@@ -4,18 +4,15 @@ from pathlib import Path
 rootDirectory = Path(__file__).resolve()
 while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
-sys.path.append(rootDirectory)
+sys.path.append(str(rootDirectory))
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, redirect, url_for, send_from_directory, jsonify, request
 from signin import checkPassword
-from PYFiles.adminFunctions.NewProduct import multipleNewProduct
-from PYFiles.adminFunctions.NewCompany import addCompanyToCompanyDatabase
+from AppBuild.Python.PYFiles.adminFunctions.NewProduct import multipleNewProduct
+from AppBuild.Python.PYFiles.adminFunctions.NewCompany import addCompanyToCompanyDatabase
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
-
-#print(BASE_DIR / "Javascript/HTML with embeded React" / "prototype.html")
-#print(rootDirectory)
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():

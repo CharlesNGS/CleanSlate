@@ -3,8 +3,8 @@ from pathlib import Path
 rootDirectory = Path(__file__).resolve()
 while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
-sys.path.append(rootDirectory)
-from PYFiles.DataBaseConnections import companyDatabase
+sys.path.append(str(rootDirectory))
+from AppBuild.Python.PYFiles.DataBaseConnections import companyDatabase
 
 def addCompanyToCompanyDatabase(newCompanyName):
     #Database connection specifying the host address, port, user, password from ENV file and the schema to use.

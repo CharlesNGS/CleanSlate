@@ -4,8 +4,8 @@ rootDirectory = Path(__file__).resolve()
 while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
 sys.path.append(rootDirectory)
-from DatabaseInteractions import addProductToProductDatabase
-from InputProcessing import checkCSVOrderAndContents, hashMaker, URLMaker, QRMaker
+from AppBuild.Python.PYFiles.adminFunctions.DatabaseInteractions import addProductToProductDatabase
+from AppBuild.Python.PYFiles.adminFunctions.InputProcessing import checkCSVOrderAndContents, hashMaker, URLMaker, QRMaker
 import csv
 
 #Takes an input based off of a products details and creates all required components to add one single new product to a database

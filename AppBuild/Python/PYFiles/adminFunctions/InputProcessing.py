@@ -3,7 +3,7 @@ from pathlib import Path
 rootDirectory = Path(__file__).resolve()
 while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
-sys.path.append(rootDirectory)
+sys.path.append(str(rootDirectory))
 from hashlib import sha256
 import qrcode
 
