@@ -2,11 +2,12 @@
 import sys
 from pathlib import Path
 rootDirectory = Path(__file__).resolve()
-while not (rootDirectory / "_AppBuild").exists():
+while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
 sys.path.append(rootDirectory)
+print(rootDirectory)
 from hashlib import sha256
-from DataBaseConnections import accountDatabase
+from AppBuild.Python.PYFiles.DataBaseConnections import accountDatabase
 
 
 def checkPassword(username, password):

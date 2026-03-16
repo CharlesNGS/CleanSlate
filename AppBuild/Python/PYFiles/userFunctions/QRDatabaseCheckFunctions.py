@@ -2,7 +2,7 @@
 import sys
 from pathlib import Path
 rootDirectory = Path(__file__).resolve()
-while not (rootDirectory / "_AppBuild").exists():
+while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
 sys.path.append(rootDirectory)
 #import mysql.connector

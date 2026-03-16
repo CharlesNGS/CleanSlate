@@ -2,7 +2,7 @@ import os
 import sys
 from pathlib import Path
 rootDirectory = Path(__file__).resolve()
-while not (rootDirectory / "_AppBuild").exists():
+while not (rootDirectory / "AppBuild").exists():
     rootDirectory = rootDirectory.parent
 sys.path.append(rootDirectory)
 from datetime import datetime
@@ -15,7 +15,7 @@ app = Flask(__name__, instance_relative_config=True)
 app.secret_key = 'secretKey'
 
 #print(BASE_DIR / "Javascript/HTML with embeded React" / "prototype.html")
-print(rootDirectory)
+#print(rootDirectory)
 
 @app.route('/', methods=['GET', 'POST'])
 def homepage():
